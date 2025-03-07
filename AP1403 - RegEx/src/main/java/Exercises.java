@@ -9,21 +9,21 @@ public class Exercises {
         complete the method below, so it will validate an email address
      */
     public boolean validateEmail(String email) {
-        String regex = ""; // todo
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);
-
         return matcher.matches();
     }
-
     /*
         this method should find a date in string
         note that it should be in british or american format
         if there's no match for a date, return null
      */
     public String findDate(String string) {
-        // todo
-        return null;
+        String regex = "\\b(\\d{2})/(\\d{2})/(\\d{4})\\b|\\b(\\d{4})-(\\d{2})-(\\d{2})\\b";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(string);
+        return matcher.find() ? matcher.group() : null;
     }
 
     /*
@@ -37,8 +37,14 @@ public class Exercises {
         - has no white-space in it
      */
     public int findValidPasswords(String string) {
-        // todo
-        return -1;
+        String regex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(string);
+        int count = 0;
+        while (matcher.find()) {
+            count++;
+        }
+        return count;
     }
 
     /*
@@ -49,11 +55,24 @@ public class Exercises {
      */
     public List<String> findPalindromes(String string) {
         List<String> list = new ArrayList<>();
-        // todo
+        String regex = "\\b[a-zA-Z]{3,}\\b";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(string);
+        while (matcher.find()) {
+            String word = matcher.group();
+            String lowerWord = word.toLowerCase();
+            if (lowerWord.equals(new StringBuilder(lowerWord).reverse().toString())) {
+                list.add(word);
+            }
+        }
         return list;
     }
 
     public static void main(String[] args) {
-        // you can test your code here
+        Exercises exercises = new Exercises();
+        System.out.println(exercises.validateEmail("test@example.com")); // true
+        System.out.println(exercises.findDate("Today's date is 12/03/2024")); // 12/03/2024
+        System.out.println(exercises.findValidPasswords("Passw0rd! Valid1@pass")); // 2
+        System.out.println(exercises.findPalindromes("Aba racecar Level test notapalindrome")); // [Aba, racecar, Level]
     }
 }
