@@ -29,14 +29,15 @@ public class Exercises {
     }
 
     public int findValidPasswords(String string) {
-        // Regex to match a valid password with all conditions
-        String regex = "\\b(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*_])[A-Za-z\\d!@#$%^&*_]{8,}\\b";
+        String regex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*])[\\S]{8,}$";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(string);
-
         int count = 0;
-        while (matcher.find()) {
-            count++;
+        String check [] = string.split("\\s+");
+        for (String variable : check) {
+            Matcher matcher = pattern.matcher(variable) ;
+            if (matcher.matches()) {
+                count++;
+            }
         }
         return count;
     }
